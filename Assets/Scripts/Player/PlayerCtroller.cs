@@ -11,11 +11,13 @@ public class PlayerCtroller : MonoBehaviour
     [Header("基本逻辑")]
     public float mSpeed = 200;
     public float mJumpForce = 10;
+    private PhysicCheck mPhysicCheck;
 
     private void Awake()
     {
         mInputController = new PlayerInputController();
         mRigidbody = GetComponent<Rigidbody2D>();
+        mPhysicCheck = GetComponent<PhysicCheck>();
 
         mInputController.Gameplay.Jump.started += Jump;
     }
@@ -54,14 +56,18 @@ public class PlayerCtroller : MonoBehaviour
         if(mInputDirection.x <0 ) {
             faceDir = -1;
         }
-        // flip player
+        // flip
         transform.localScale =  new Vector3(faceDir,1,1);
     }
 
     private void Jump(InputAction.CallbackContext obj)
     {
         Debug.Log("JUMP");
-        mRigidbody.AddForce(transform.up * mJumpForce, ForceMode2D.Impulse);
+        if(mPhysicCheck.mIsGround)
+        {
+            mRigidbody.AddForce(transform.up * mJumpForce, ForceMode2D.Impulse);
+        }
+
     }
 
 

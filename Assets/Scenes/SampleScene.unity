@@ -679,7 +679,7 @@ Tilemap:
       - {fileID: 877317995, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: 2008888302, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: -498502851, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 4, z: 0}
@@ -1327,7 +1327,7 @@ GameObject:
   - component: {fileID: 1290498189}
   - component: {fileID: 1290498191}
   - component: {fileID: 1290498190}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3281,6 +3281,7 @@ GameObject:
   - component: {fileID: 1907495099}
   - component: {fileID: 1907495100}
   - component: {fileID: 1907495101}
+  - component: {fileID: 1907495102}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3430,8 +3431,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mInputDirection: {x: 0, y: 0}
-  mSpeed: 200
+  mSpeed: 260
   mJumpForce: 16.5
+--- !u!114 &1907495102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907495096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c3032200373b34398873b94f1a5c20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIsGround: 0
+  mCheckRaduis: 0.2
+  mGroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
