@@ -657,7 +657,7 @@ Tilemap:
       - {fileID: -1035384129, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: -1927659814, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: 19436015, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: 3, z: 0}
@@ -3282,6 +3282,8 @@ GameObject:
   - component: {fileID: 1907495100}
   - component: {fileID: 1907495101}
   - component: {fileID: 1907495102}
+  - component: {fileID: 1907495103}
+  - component: {fileID: 1907495104}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3392,7 +3394,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1907495096}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3ebbb4c385ed2984a97d00dded759c01, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3415,8 +3417,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.0081594}
-  m_Size: {x: 1.24854, y: 2.0163188}
+  m_Offset: {x: -0.07147616, y: 1.0081594}
+  m_Size: {x: 0.8673345, y: 2.0163188}
   m_Direction: 0
 --- !u!114 &1907495101
 MonoBehaviour:
@@ -3450,6 +3452,40 @@ MonoBehaviour:
   mGroundLayer:
     serializedVersion: 2
     m_Bits: 64
+  mBottomOffset: {x: 0, y: 0}
+--- !u!95 &1907495103
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907495096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79ec2b0d5fe29ca4984802770f40e8fd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1907495104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907495096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0329216286ad31442ba08f0726ae1676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

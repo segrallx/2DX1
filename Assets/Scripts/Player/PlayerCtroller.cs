@@ -13,6 +13,10 @@ public class PlayerCtroller : MonoBehaviour
     public float mJumpForce = 10;
     private PhysicCheck mPhysicCheck;
 
+    private float mRunSpeed;
+    private float mWalkSpeed ;// => mSpeed/2.5f;
+
+
     private void Awake()
     {
         mInputController = new PlayerInputController();
@@ -20,6 +24,28 @@ public class PlayerCtroller : MonoBehaviour
         mPhysicCheck = GetComponent<PhysicCheck>();
 
         mInputController.Gameplay.Jump.started += Jump;
+
+
+        #region 强制走路
+        mRunSpeed = mSpeed;
+        mWalkSpeed = mSpeed/2.5f;
+
+        // 按钮按住
+        mInputController.Gameplay.WalkButton.performed +=  ctx => {
+            if(mPhysicCheck.mIsGround) {
+                mSpeed = mWalkSpeed;
+            }
+        };
+
+        // 按钮抬起
+        mInputController.Gameplay.WalkButton.canceled +=  ctx => {
+            if(mPhysicCheck.mIsGround) {
+                mSpeed = mRunSpeed;
+            }
+        };
+
+        #endregion
+
     }
 
     private void OnEnable()
