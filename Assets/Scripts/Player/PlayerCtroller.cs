@@ -9,7 +9,8 @@ public class PlayerCtroller : MonoBehaviour
 
     //速度
     [Header("基本逻辑")]
-    public float mSpeed = 200;
+    public float mSpeed = 260;
+    public float mVelocityX;
     public float mJumpForce = 10;
     private PhysicCheck mPhysicCheck;
 
@@ -84,6 +85,8 @@ public class PlayerCtroller : MonoBehaviour
         }
         // flip
         transform.localScale =  new Vector3(faceDir,1,1);
+
+        mVelocityX = mRigidbody.velocity.x;
     }
 
     private void Jump(InputAction.CallbackContext obj)
