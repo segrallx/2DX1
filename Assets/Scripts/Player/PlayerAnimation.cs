@@ -32,6 +32,8 @@ public class PlayerAnimation : MonoBehaviour
         mAnim.SetBool("isground", mPhysicCheck.mIsGround);
         mAnim.SetBool("isCrouch", mPlayerCtrler.mIsCrouch);
         mAnim.SetBool("dead", mPlayerCtrler.mIsDead);
+        mAnim.SetBool("isAttack", mPlayerCtrler.mIsAttack);
+       // mAnim.SetInteger("combo", mPlayerCtrler.combo);
 
     }
 
@@ -39,5 +41,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         Debug.Log("play hurt");
         mAnim.SetTrigger("hurt");
+    }
+
+    public void PlayAttack()
+    {
+        mAnim.SetTrigger("attack");
     }
 }

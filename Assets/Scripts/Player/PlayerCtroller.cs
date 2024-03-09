@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +9,7 @@ public class PlayerCtroller : MonoBehaviour
     public Vector2 mInputDirection;
     private Rigidbody2D mRigidbody;
     private CapsuleCollider2D mColl;
+    private PlayerAnimation mAnim;
 
     //速度
     [Header("基本逻辑")]
@@ -28,6 +30,8 @@ public class PlayerCtroller : MonoBehaviour
     public float mHurtForce;
 
     public bool mIsDead;
+    public bool mIsAttack;
+
 
     private void Awake()
     {
@@ -35,6 +39,7 @@ public class PlayerCtroller : MonoBehaviour
         mRigidbody = GetComponent<Rigidbody2D>();
         mPhysicCheck = GetComponent<PhysicCheck>();
         mColl = GetComponent<CapsuleCollider2D>();
+        mAnim = GetComponent<PlayerAnimation>();
 
         mCollOriginOffset = mColl.offset;
         mCollOriginSize = mColl.size;
@@ -66,7 +71,13 @@ public class PlayerCtroller : MonoBehaviour
 
         #endregion
 
+
+        #region 攻击
+        mInputController.Gameplay.Attack.started += PlayerAttack;
+        #endregion
+
     }
+
 
     private void OnEnable()
     {
@@ -144,6 +155,7 @@ public class PlayerCtroller : MonoBehaviour
     //     Debug.Log(collision.name);
     // }
 
+    #region UnityEvet
     public void GetHurt(Transform attacker)
     {
         mIsHurt = true;
@@ -157,6 +169,16 @@ public class PlayerCtroller : MonoBehaviour
         mIsDead = true;
         mInputController.Gameplay.Disable(); // 人物操作disable
     }
+
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        Debug.Log("player attack");
+        mAnim.PlayAttack();
+        mIsAttack = true;
+
+    }
+
+    #endregion
 
 
 }
