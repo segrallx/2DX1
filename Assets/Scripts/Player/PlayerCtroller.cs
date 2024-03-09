@@ -23,7 +23,6 @@ public class PlayerCtroller : MonoBehaviour
     private Vector2 mCollOriginOffset;
     private Vector2 mCollOriginSize;
 
-
     private void Awake()
     {
         mInputController = new PlayerInputController();
@@ -130,6 +129,11 @@ public class PlayerCtroller : MonoBehaviour
             mRigidbody.AddForce(transform.up * mJumpForce, ForceMode2D.Impulse);
         }
     }
+
+    // private void OnTriggerStay2D(Collider2D collision)
+    // {
+    //     Debug.Log(collision.name);
+    // }
 
 
 }
