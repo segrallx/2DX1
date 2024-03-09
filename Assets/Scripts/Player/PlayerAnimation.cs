@@ -14,7 +14,7 @@ public class PlayerAnimation : MonoBehaviour
     private void Awake()
     {
         mAnim = GetComponent<Animator>();
-        mRb = GetComponent<Rigidbody2D>(); 
+        mRb = GetComponent<Rigidbody2D>();
         mPhysicCheck = GetComponent<PhysicCheck>();
         mPlayerCtrler = GetComponent<PlayerCtroller>();
     }

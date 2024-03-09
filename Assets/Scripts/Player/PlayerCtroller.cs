@@ -32,6 +32,9 @@ public class PlayerCtroller : MonoBehaviour
     public bool mIsDead;
     public bool mIsAttack;
 
+    public PhysicsMaterial2D mMaterialWall;
+    public PhysicsMaterial2D mMaterialNormal;
+
 
     private void Awake()
     {
@@ -92,11 +95,17 @@ public class PlayerCtroller : MonoBehaviour
     public void Update()
     {
         mInputDirection = mInputController.Gameplay.Move.ReadValue<Vector2>();
+        CheckState();
+    }
+
+    private void CheckState()
+    {
+        mColl.sharedMaterial = mPhysicCheck.mIsGround ?  mMaterialNormal: mMaterialWall;
     }
 
     private void FixedUpdate()
     {
-        if (!mIsHurt)
+        if (!mIsHurt && !mIsAttack)
         {
             Move();
         }
