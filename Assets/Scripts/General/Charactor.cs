@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Charactor : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class Charactor : MonoBehaviour
     public float mInvulnerableDuration;
     private float mInvulnerableCounter;
     public bool mInvulnurable;
+    public UnityEvent<Transform> mOnTakeDamage;
+    public UnityEvent mOnDead;
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,10 +53,14 @@ public class Charactor : MonoBehaviour
         if(mCurrentHealth - attacker.mDamage >0 )  {
             mCurrentHealth -= attacker.mDamage;
             TriggerInvulnerable();
+            // ÷¥–– ‹…À
+            mOnTakeDamage?.Invoke(attacker.transform);
+
         }else {
             mCurrentHealth = 0;
             //dead
-            Debug.Log("charactor dead");
+            //Debug.Log("charactor dead");
+            mOnDead?.Invoke();
         }
 
     }

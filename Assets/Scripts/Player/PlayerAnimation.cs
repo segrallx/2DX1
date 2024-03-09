@@ -14,7 +14,7 @@ public class PlayerAnimation : MonoBehaviour
     private void Awake()
     {
         mAnim = GetComponent<Animator>();
-        mRb = GetComponent<Rigidbody2D>();
+        mRb = GetComponent<Rigidbody2D>(); 
         mPhysicCheck = GetComponent<PhysicCheck>();
         mPlayerCtrler = GetComponent<PlayerCtroller>();
     }
@@ -31,5 +31,13 @@ public class PlayerAnimation : MonoBehaviour
         mAnim.SetFloat("velocity_y", (mRb.velocity.y));
         mAnim.SetBool("isground", mPhysicCheck.mIsGround);
         mAnim.SetBool("isCrouch", mPlayerCtrler.mIsCrouch);
+        mAnim.SetBool("dead", mPlayerCtrler.mIsDead);
+
+    }
+
+    public void PlayHurt()
+    {
+        Debug.Log("play hurt");
+        mAnim.SetTrigger("hurt");
     }
 }

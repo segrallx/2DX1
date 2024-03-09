@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,11 @@ public class PlayerCtroller : MonoBehaviour
     public bool mIsCrouch;
     private Vector2 mCollOriginOffset;
     private Vector2 mCollOriginSize;
+
+    public bool mIsHurt;
+    public float mHurtForce;
+
+    public bool mIsDead;
 
     private void Awake()
     {
@@ -79,7 +85,10 @@ public class PlayerCtroller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (!mIsHurt)
+        {
+            Move();
+        }
     }
 
     public void Move()
@@ -134,6 +143,20 @@ public class PlayerCtroller : MonoBehaviour
     // {
     //     Debug.Log(collision.name);
     // }
+
+    public void GetHurt(Transform attacker)
+    {
+        mIsHurt = true;
+        mRigidbody.velocity = Vector2.zero;
+        Vector2 dir = new Vector2(transform.position.x - attacker.position.x, 0).normalized;
+        mRigidbody.AddForce(dir * mHurtForce, ForceMode2D.Impulse);
+    }
+
+    public void PlayerDead()
+    {
+        mIsDead = true;
+        mInputController.Gameplay.Disable(); // 人物操作disable
+    }
 
 
 }
