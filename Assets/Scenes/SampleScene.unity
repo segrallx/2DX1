@@ -734,7 +734,7 @@ Tilemap:
       - {fileID: -751956033, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: 1784448479, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: -283635456, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: 2, z: 0}
@@ -866,7 +866,7 @@ Tilemap:
       - {fileID: -751956033, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: 1784448479, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: -283635456, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: 6, z: 0}
@@ -910,7 +910,7 @@ Tilemap:
       - {fileID: 877317995, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: 2008888302, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
       - {fileID: -498502851, guid: 38ba8097ba60c8a4f8c437ad4b9a42d6, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 7, z: 0}
@@ -1368,8 +1368,11 @@ GameObject:
   - component: {fileID: 909487332}
   - component: {fileID: 909487333}
   - component: {fileID: 909487334}
+  - component: {fileID: 909487337}
   - component: {fileID: 909487335}
   - component: {fileID: 909487336}
+  - component: {fileID: 909487338}
+  - component: {fileID: 909487339}
   m_Layer: 8
   m_Name: Boar
   m_TagString: Untagged
@@ -1438,7 +1441,7 @@ Transform:
   m_GameObject: {fileID: 909487329}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.41, y: -0.99, z: 0}
+  m_LocalPosition: {x: 5.352, y: -0.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1580,7 +1583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mMaxHealth: 50
   mCurrentHealth: 50
-  mInvulnerableDuration: 1
+  mInvulnerableDuration: 0.3
   mInvulnurable: 0
   mOnTakeDamage:
     m_PersistentCalls:
@@ -1588,6 +1591,69 @@ MonoBehaviour:
   mOnDead:
     m_PersistentCalls:
       m_Calls: []
+--- !u!95 &909487337
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909487329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 345591803df36be4295172e4a48a69cc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &909487338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909487329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b96abf4ff56b164b8eecd3cf94b7128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mNormalSpeed: 150
+  mChaseSpeed: 260
+  mCurSpeed: 0
+  mFaceDir: {x: 0, y: 0, z: 0}
+  mWaitTime: 1
+  mWaitTimeCounter: 0
+  mWait: 0
+--- !u!114 &909487339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909487329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c3032200373b34398873b94f1a5c20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mManual: 1
+  mCheckRaduis: 0.1
+  mGroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  mBottomOffset: {x: 0, y: 0}
+  mLeftOffset: {x: -1.2, y: 0.57}
+  mRightOffset: {x: 0.98, y: 0.61}
+  mIsGround: 0
+  mTouchLeftWall: 0
+  mTouchRightWall: 0
 --- !u!1 &1078350063
 GameObject:
   m_ObjectHideFlags: 0
@@ -3066,7 +3132,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -3816,7 +3882,7 @@ Transform:
   m_GameObject: {fileID: 1907495096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 1.76, z: 0}
+  m_LocalPosition: {x: -2.17, y: 2.0049865, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3920,12 +3986,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c3032200373b34398873b94f1a5c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIsGround: 0
+  mManual: 0
   mCheckRaduis: 0.2
   mGroundLayer:
     serializedVersion: 2
     m_Bits: 64
   mBottomOffset: {x: 0, y: 0}
+  mLeftOffset: {x: -0.49, y: 0.87}
+  mRightOffset: {x: 0.52, y: 0.87}
+  mIsGround: 0
+  mTouchLeftWall: 0
+  mTouchRightWall: 0
 --- !u!95 &1907495103
 Animator:
   serializedVersion: 5
@@ -4119,7 +4190,7 @@ PolygonCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1746576889}
   - {fileID: 1907495098}
   - {fileID: 1078350065}
-  - {fileID: 1746576889}
   - {fileID: 909487331}
