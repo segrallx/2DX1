@@ -117,6 +117,7 @@ public class Enemy : MonoBehaviour
     {
         mAnim.SetBool("dead", true);
         mIsDead = true;
+        gameObject.layer = 2 ;
     }
 
     public void DestroyAfterAnimation()
