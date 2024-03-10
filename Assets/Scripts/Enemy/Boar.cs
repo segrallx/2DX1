@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Boar : Enemy
 {
-    public override void Move()
+    // public override void Move()
+    // {
+    //     base.Move();
+    //     mAnim.SetBool("walk", true);
+    // }
+
+    protected override void Awake()
     {
-        base.Move();
-        mAnim.SetBool("walk", true);
+        base.Awake();
+        mPatrolState = new BarPatrolState();
     }
+
 }

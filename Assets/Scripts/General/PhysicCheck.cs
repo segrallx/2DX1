@@ -26,8 +26,9 @@ public class PhysicCheck : MonoBehaviour
         mColl = GetComponent<CapsuleCollider2D>();
         if (!mManual)
         {
-            mRightOffset = new Vector2((mColl.bounds.size.x + mColl.offset.x) / 2, mColl.bounds.size.y / 2);
-            mLeftOffset = new Vector2(-mRightOffset.x,mRightOffset.y);
+            mRightOffset = new Vector2((mColl.bounds.size.x + mColl.offset.x) / 2,
+                                       mColl.bounds.size.y / 2);
+            mLeftOffset = new Vector2(-mRightOffset.x, mRightOffset.y);
         }
     }
 
@@ -40,25 +41,46 @@ public class PhysicCheck : MonoBehaviour
     void Check()
     {
         // ¼ì²âµØÃæ
-        mIsGround = Physics2D.OverlapCircle((Vector2)transform.position+mBottomOffset,
-                                            mCheckRaduis, mGroundLayer);
-
-        //left wall
-        mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + mLeftOffset,
-                                            mCheckRaduis, mGroundLayer);
-        mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position + mRightOffset,
-                                    mCheckRaduis, mGroundLayer);
-
-
+        if (transform.localScale.x > 0)
+        {
+            mIsGround = Physics2D.OverlapCircle((Vector2)transform.position + mBottomOffset,
+                                                mCheckRaduis, mGroundLayer);
+            //left wall
+            mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + mLeftOffset,
+                                                     mCheckRaduis, mGroundLayer);
+            mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position + mRightOffset,
+                                                      mCheckRaduis, mGroundLayer);
+        }
+        else
+        {
+            mIsGround = Physics2D.OverlapCircle((Vector2)transform.position +
+                                                new Vector2(-mBottomOffset.x, mBottomOffset.y),
+                                                mCheckRaduis, mGroundLayer);
+            //left wall
+            mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position +
+                                                     new Vector2(-mLeftOffset.x, mLeftOffset.y),
+                                                     mCheckRaduis, mGroundLayer);
+            mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position +
+                                                      new Vector2(-mRightOffset.x, mRightOffset.y),
+                                                      mCheckRaduis, mGroundLayer);
+        }
     }
 
     // render in editor
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere((Vector2)transform.position+mBottomOffset, mCheckRaduis);
-        Gizmos.DrawWireSphere((Vector2)transform.position + mLeftOffset, mCheckRaduis);
-        Gizmos.DrawWireSphere((Vector2)transform.position + mRightOffset, mCheckRaduis);
-
+        if (transform.localScale.x > 0)
+        {
+            Gizmos.DrawWireSphere((Vector2)transform.position + mBottomOffset, mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + mLeftOffset, mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + mRightOffset, mCheckRaduis);
+        }
+        else
+        {
+            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(-mBottomOffset.x, mBottomOffset.y) , mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mLeftOffset.x,mLeftOffset.y) , mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mRightOffset.x, mRightOffset.y), mCheckRaduis);
+        }
     }
 
 }

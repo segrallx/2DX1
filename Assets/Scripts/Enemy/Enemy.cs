@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    protected Rigidbody2D mRb;
-    protected Animator mAnim;
-    protected PhysicCheck mPhysic;
+    [HideInInspector]
+    public Rigidbody2D mRb;
+    [HideInInspector]
+    public Animator mAnim;
+    [HideInInspector]
+    public PhysicCheck mPhysic;
 
     [Header("基本参数")]
     public float mNormalSpeed;
@@ -26,61 +29,59 @@ public class Enemy : MonoBehaviour
     public bool mIsHurt;
     public bool mIsDead;
 
-    private void Awake()
+    // state machine.
+    protected BaseState mPatrolState;
+    protected BaseState mCurState;
+    protected BaseState mChaseState;
+
+    protected virtual void Awake()
     {
+        Debug.Log("enemy awake");
         mRb = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
         mPhysic = GetComponent<PhysicCheck>();
         mCurSpeed = mNormalSpeed;
         mFaceDir = new Vector3(-transform.localScale.x, 0, 0);
+        mPatrolState = new BarPatrolState();
     }
+
+    private void OnEnable()
+    {
+        Debug.Log("enemy on enable");
+        mCurState = mPatrolState;
+        mCurState.OnEnter(this);
+    }
+
+
+    private void OnDisable()
+    {
+        Debug.Log("enemy on disable");
+        mCurState.OnExit();
+    }
+
+
 
     private void Update()
     {
-        if (mWait)
-        {
-            mWaitTimeCounter -= Time.deltaTime;
-            if (mWaitTimeCounter > 0)
-            {
-                return;
-            }
-            transform.localScale = new Vector3(mFaceDir.x, 1, 1);
-            mWait = false;
-            //mWaitTimeCounter = mWaitTime;
-            mFaceDir = new Vector3(-transform.localScale.x, 0, 0);
-            return;
-        }
-
-        if ( (mPhysic.mTouchLeftWall&&mFaceDir.x<0) ||  (mPhysic.mTouchRightWall && mFaceDir.x>0))
-        {
-            mWait = true;
-            mWaitTimeCounter = mWaitTime;
-            mAnim.SetBool("walk", false);
-        }
-
-
+        mCurState.LogicUpdate();
     }
 
     private void FixedUpdate()
     {
-        if (mWait)
-        {
-            return;
+        if(mWait || mIsHurt || mIsDead){
+        }
+        else {
+            Move();
         }
 
-        if(mIsHurt || mIsDead )
-        {
-            return;
-        }
-        Move();
+        mCurState.PhysicsUpdate();
     }
 
     public virtual void Move()
     {
-        if(!mIsHurt)
-        {
-            mRb.velocity = new Vector2(mCurSpeed * mFaceDir.x * Time.deltaTime, mRb.velocity.y);
-        }
+        mAnim.SetBool("walk", true);
+        mRb.velocity = new Vector2(mCurSpeed * mFaceDir.x *
+                                   Time.deltaTime, mRb.velocity.y);
     }
 
 
