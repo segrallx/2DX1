@@ -181,10 +181,9 @@ public class PlayerCtroller : MonoBehaviour
 
     private void PlayerAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("player attack");
+        //Debug.Log("player attack");
         mAnim.PlayAttack();
         mIsAttack = true;
-
     }
 
     #endregion

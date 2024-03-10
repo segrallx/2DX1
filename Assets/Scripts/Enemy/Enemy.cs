@@ -12,14 +12,19 @@ public class Enemy : MonoBehaviour
     [Header("基本参数")]
     public float mNormalSpeed;
     public float mChaseSpeed;
-
     public float mCurSpeed;
     public Vector3 mFaceDir;
+    public float mHurtForce;
 
+    public Transform mAttacker;
     [Header("计时器")]
     public float mWaitTime;
     public float mWaitTimeCounter;
     public bool mWait;
+
+    [Header("状态")]
+    public bool mIsHurt;
+    public bool mIsDead;
 
     private void Awake()
     {
@@ -62,12 +67,61 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+
+        if(mIsHurt || mIsDead )
+        {
+            return;
+        }
         Move();
     }
 
     public virtual void Move()
     {
-        mRb.velocity = new Vector2(mCurSpeed * mFaceDir.x * Time.deltaTime, mRb.velocity.y);
+        if(!mIsHurt)
+        {
+            mRb.velocity = new Vector2(mCurSpeed * mFaceDir.x * Time.deltaTime, mRb.velocity.y);
+        }
+    }
+
+
+    // 被攻击后转身
+    public void OnTakeDamage(Transform attackTrans)
+    {
+        Debug.Log("enemy tabke damage");
+        mAttacker = attackTrans;
+        //转身
+        if(attackTrans.position.x - transform.position.x >0 ) {
+            transform.localScale= new Vector3(-1,1,1);
+        }
+
+        if(attackTrans.position.x - transform.position.x <0 ) {
+            transform.localScale= new Vector3(1,1,1);
+        }
+
+        // 受伤被击退
+        mIsHurt = true;
+        mAnim.SetTrigger("hurt");
+
+        Vector2 dir = new Vector2(transform.position.x -attackTrans.position.x ,0 ).normalized;
+        StartCoroutine(OnHurt(dir));
+    }
+
+    IEnumerator OnHurt(Vector2 dir)
+    {
+        mRb.AddForce(dir*mHurtForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(1f);
+        mIsHurt = false;
+    }
+
+    public void OnDie()
+    {
+        mAnim.SetBool("dead", true);
+        mIsDead = true;
+    }
+
+    public void DestroyAfterAnimation()
+    {
+        Destroy(gameObject);
     }
 
 }
