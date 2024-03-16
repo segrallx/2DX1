@@ -5,10 +5,16 @@ public class BarPatrolState : BaseState
     public override void OnEnter(Enemy enemy)
     {
         mCurEnemy = enemy;
+        mCurEnemy.mCurSpeed = mCurEnemy.mNormalSpeed;
     }
 
     public override void LogicUpdate()
     {
+        if(mCurEnemy.FoundPlayer()){
+            mCurEnemy.SwitchState(NPCState.Chase);
+        }
+
+
         if (mCurEnemy.mWait)
         {
             mCurEnemy.mWaitTimeCounter -= Time.deltaTime;
@@ -17,8 +23,9 @@ public class BarPatrolState : BaseState
                 return;
             }
             mCurEnemy.transform.localScale = new Vector3(mCurEnemy.mFaceDir.x, 1, 1);
-            mCurEnemy.mWait = false;
             mCurEnemy.mFaceDir = new Vector3(-mCurEnemy.transform.localScale.x, 0, 0);
+
+            mCurEnemy.mWait = false;
             return;
         }
 
@@ -32,11 +39,11 @@ public class BarPatrolState : BaseState
             mCurEnemy.mAnim.SetBool("walk", false);
             mCurEnemy.mRb.velocity = Vector2.zero;
         }
+
     }
 
     public override void PhysicsUpdate()
     {
-
     }
 
     public override void OnExit()

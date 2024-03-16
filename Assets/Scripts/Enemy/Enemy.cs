@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -25,14 +26,25 @@ public class Enemy : MonoBehaviour
     public float mWaitTimeCounter;
     public bool mWait;
 
+    public float mLostTime;
+    public float mLostTimeCounter;
+
+
     [Header("状态")]
     public bool mIsHurt;
     public bool mIsDead;
+
+    [Header("检测")]
+    public Vector2 mCenterOffset;
+    public Vector2 mCheckSize;
+    public float mCheckDistance;
+    public LayerMask mAttackLayer;
 
     // state machine.
     protected BaseState mPatrolState;
     protected BaseState mCurState;
     protected BaseState mChaseState;
+    protected BaseState mSkillState;
 
     protected virtual void Awake()
     {
@@ -85,6 +97,30 @@ public class Enemy : MonoBehaviour
     }
 
 
+    public bool FoundPlayer()
+    {
+        var ret =  Physics2D.BoxCast(transform.position + (Vector3)mCenterOffset,
+                                     mCheckSize , 0, mFaceDir, mCheckDistance, mAttackLayer);
+        return ret;
+    }
+
+
+    public void SwitchState(NPCState state)
+    {
+        var newState = state switch {
+            NPCState.Patrol => mPatrolState,
+            NPCState.Chase => mChaseState,
+            _ => null
+            //NPCState.Skill => mSkillState,
+        };
+
+        mCurState.OnExit();
+        mCurState = newState;
+        mCurState.OnEnter(this);
+    }
+
+    #region  事件执行方法
+
     // 被攻击后转身
     public void OnTakeDamage(Transform attackTrans)
     {
@@ -104,6 +140,7 @@ public class Enemy : MonoBehaviour
         mAnim.SetTrigger("hurt");
 
         Vector2 dir = new Vector2(transform.position.x -attackTrans.position.x ,0 ).normalized;
+        mRb.velocity = new Vector2(0,mRb.velocity.y);
         StartCoroutine(OnHurt(dir));
     }
 
@@ -124,6 +161,14 @@ public class Enemy : MonoBehaviour
     public void DestroyAfterAnimation()
     {
         Destroy(gameObject);
+    }
+
+    #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position + (Vector3)mCenterOffset + 
+            new Vector3(mCheckDistance*- transform.localScale.x,0,0), 0.2f);
     }
 
 }

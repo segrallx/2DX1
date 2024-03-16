@@ -14,6 +14,7 @@ public class Boar : Enemy
     {
         base.Awake();
         mPatrolState = new BarPatrolState();
+        mChaseState = new BarChaseState();
     }
 
 }
