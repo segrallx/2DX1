@@ -10,8 +10,7 @@ public class Attack : MonoBehaviour
     public float mAttackRate;
 
     private void OnTriggerStay2D(Collider2D collision)
-    {
-        
+    {    
         collision.GetComponent<Charactor>()?.TakeDamage(this);
     }
 }

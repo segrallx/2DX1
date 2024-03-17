@@ -16,11 +16,13 @@ public class Charactor : MonoBehaviour
     public UnityEvent<Transform> mOnTakeDamage;
     public UnityEvent mOnDead;
 
+    public UnityEvent<Charactor> mOnHealthChange;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        mOnHealthChange?.Invoke(this);
     }
 
     private void TriggerInvulnerable()
@@ -63,6 +65,8 @@ public class Charactor : MonoBehaviour
             //Debug.Log("charactor dead");
             mOnDead?.Invoke();
         }
+
+        mOnHealthChange?.Invoke(this);
 
     }
 }
