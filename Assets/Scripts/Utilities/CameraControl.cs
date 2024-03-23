@@ -8,7 +8,6 @@ public class CameraControl : MonoBehaviour
 {
     private CinemachineConfiner2D mConfiner2D;
     public CinemachineImpulseSource mImpluseSource;
-
     public VoidEventSO mCameraShakeEvent;
 
 
