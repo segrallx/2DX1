@@ -10,7 +10,6 @@ public class CameraControl : MonoBehaviour
     public CinemachineImpulseSource mImpluseSource;
     public VoidEventSO mCameraShakeEvent;
 
-
     private void Awake()
     {
         mConfiner2D = GetComponent<CinemachineConfiner2D>();
@@ -31,7 +30,6 @@ public class CameraControl : MonoBehaviour
     void Start()
     {
         GetNewCameraBounds();
-
     }
 
     private void OnEnable()

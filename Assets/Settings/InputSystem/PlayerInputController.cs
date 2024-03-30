@@ -62,6 +62,15 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""86004526-e72f-41a3-8a91-a7928478e069"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,17 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5f8e41e-ad91-4804-b55c-df451ae9b326"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -818,6 +838,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_WalkButton = m_Gameplay.FindAction("WalkButton", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+        m_Gameplay_Confirm = m_Gameplay.FindAction("Confirm", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -895,6 +916,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_WalkButton;
     private readonly InputAction m_Gameplay_Attack;
+    private readonly InputAction m_Gameplay_Confirm;
     public struct GameplayActions
     {
         private @PlayerInputController m_Wrapper;
@@ -903,6 +925,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @WalkButton => m_Wrapper.m_Gameplay_WalkButton;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+        public InputAction @Confirm => m_Wrapper.m_Gameplay_Confirm;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -924,6 +947,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Confirm.started += instance.OnConfirm;
+            @Confirm.performed += instance.OnConfirm;
+            @Confirm.canceled += instance.OnConfirm;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -940,6 +966,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Confirm.started -= instance.OnConfirm;
+            @Confirm.performed -= instance.OnConfirm;
+            @Confirm.canceled -= instance.OnConfirm;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1126,6 +1155,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         void OnJump(InputAction.CallbackContext context);
         void OnWalkButton(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
