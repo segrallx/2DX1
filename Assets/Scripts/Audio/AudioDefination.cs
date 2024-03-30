@@ -7,7 +7,6 @@ public class AudioDefination : MonoBehaviour
 {
     public PlayerAudioEventSO mPlayerAudioEvent;
     public AudioClip mAudioClip;
-
     public bool mPlayerOnEnable;
 
     private void OnEnable()

@@ -7397,13 +7397,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_347
+      name: ChestClose
       rect:
         serializedVersion: 2
         x: 288
-        y: 112
-        width: 16
-        height: 16
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -7418,34 +7418,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_348
-      rect:
-        serializedVersion: 2
-        x: 304
-        y: 112
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21afbbc57d3708a4f8a98f87bced41f9
-      internalID: 667875029
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_349
+      name: CheseOpen
       rect:
         serializedVersion: 2
         x: 320
-        y: 112
-        width: 16
-        height: 16
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -7455,27 +7434,6 @@ TextureImporter:
       bones: []
       spriteID: fbbef4defce68f64797c5124ded8e9aa
       internalID: 1091601650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_350
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 112
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6ed4c40d288970945a1836099dc8c7ff
-      internalID: -232587876
       vertices: []
       indices: 
       edges: []
@@ -7770,90 +7728,6 @@ TextureImporter:
       bones: []
       spriteID: 0f8e47b1a1fc3044c94d5723cf4a8898
       internalID: -2012797350
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_365
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d709972d461e6924f9cf9278d47ed63b
-      internalID: 283771779
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_366
-      rect:
-        serializedVersion: 2
-        x: 304
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dfdf7458d239c1747b059ba8099d9e95
-      internalID: -2116055001
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_367
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70d17791fc67f8e408a0d2163948f7d1
-      internalID: -3728857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_368
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f6a3570fed5fc12488a7c3e69fbcf0b0
-      internalID: -916150556
       vertices: []
       indices: 
       edges: []
@@ -9864,6 +9738,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      CheseOpen: 1091601650
+      ChestClose: 1024318499
       Groud1_1_1: -681089271
       Groud1_1_2: -1523638155
       Groud1_1_3: -551577464
@@ -10157,9 +10033,7 @@ TextureImporter:
       Tiles_344: -1689300214
       Tiles_345: 447408333
       Tiles_346: 2129262009
-      Tiles_347: 1024318499
       Tiles_348: 667875029
-      Tiles_349: 1091601650
       Tiles_35: -489632189
       Tiles_350: -232587876
       Tiles_351: -1687030891

@@ -48,6 +48,7 @@ public class PhysicCheck : MonoBehaviour
             //left wall
             mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + mLeftOffset,
                                                      mCheckRaduis, mGroundLayer);
+
             mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position + mRightOffset,
                                                       mCheckRaduis, mGroundLayer);
         }
@@ -57,10 +58,11 @@ public class PhysicCheck : MonoBehaviour
                                                 new Vector2(-mBottomOffset.x, mBottomOffset.y),
                                                 mCheckRaduis, mGroundLayer);
             //left wall
-            mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position +
+            mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position +
                                                      new Vector2(-mLeftOffset.x, mLeftOffset.y),
                                                      mCheckRaduis, mGroundLayer);
-            mTouchRightWall = Physics2D.OverlapCircle((Vector2)transform.position +
+
+            mTouchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position +
                                                       new Vector2(-mRightOffset.x, mRightOffset.y),
                                                       mCheckRaduis, mGroundLayer);
         }
@@ -77,8 +79,8 @@ public class PhysicCheck : MonoBehaviour
         }
         else
         {
-            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(-mBottomOffset.x, mBottomOffset.y) , mCheckRaduis);
-            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mLeftOffset.x,mLeftOffset.y) , mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mBottomOffset.x, mBottomOffset.y) , mCheckRaduis);
+            Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mLeftOffset.x, mLeftOffset.y) , mCheckRaduis);
             Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(- mRightOffset.x, mRightOffset.y), mCheckRaduis);
         }
     }
