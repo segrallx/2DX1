@@ -12,6 +12,4 @@ public class PlayerAudioEventSO : ScriptableObject
     {
         OnEventRaised?.Invoke(audioClip);
     }
-
-
 }

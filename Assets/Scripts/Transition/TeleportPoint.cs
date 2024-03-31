@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TeleportPoint : MonoBehaviour, IInteractable
 {
-
     public Vector3 mPositionToGo;
 
     // Start is called before the first frame update
