@@ -936,6 +936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mImpluseSource: {fileID: 530318222}
   mCameraShakeEvent: {fileID: 11400000, guid: 0516f0d761a8bbd40baaf8bbe5c670ca, type: 2}
+  mSceneAfterLoadEvent: {fileID: 11400000, guid: b78de9a5ac9875842860dbf5c20d9e5c, type: 2}
 --- !u!114 &582418045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,6 +1323,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mFirstLoadScene: {fileID: 11400000, guid: 45dc8d695a9731c46957537ca1d81407, type: 2}
   mSceneLoadEventSO: {fileID: 11400000, guid: 58c7d905ff038b74bac9517484625260, type: 2}
+  mPlayerTrans: {fileID: 1907495098}
+  mAfterSceneLoadEvent: {fileID: 11400000, guid: b78de9a5ac9875842860dbf5c20d9e5c, type: 2}
   mFadeDuration: 0
 --- !u!1 &1062163322
 GameObject:
@@ -2643,7 +2646,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

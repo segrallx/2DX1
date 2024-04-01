@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 
 public class CameraControl : MonoBehaviour
@@ -9,6 +10,7 @@ public class CameraControl : MonoBehaviour
     private CinemachineConfiner2D mConfiner2D;
     public CinemachineImpulseSource mImpluseSource;
     public VoidEventSO mCameraShakeEvent;
+    public VoidEventSO mSceneAfterLoadEvent;
 
     private void Awake()
     {
@@ -35,11 +37,19 @@ public class CameraControl : MonoBehaviour
     private void OnEnable()
     {
         mCameraShakeEvent.mOnEventRaised += OntakeDamage;
+        mSceneAfterLoadEvent.mOnEventRaised += OnSceneLoadAfter;
+        
+    }
+
+    private void OnSceneLoadAfter()
+    {
+        GetNewCameraBounds();
     }
 
     private void OnDisable()
     {
         mCameraShakeEvent.mOnEventRaised -= OntakeDamage;
+        mSceneAfterLoadEvent.mOnEventRaised -= OnSceneLoadAfter;
     }
 
     private void OntakeDamage()
