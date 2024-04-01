@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8b221304a7e5a14dbda38b357e9fc0c, type: 3}
-  m_Name: Cave
+  m_Name: S2
   m_EditorClassIdentifier: 
   mSceneRefer:
-    m_AssetGUID: 8c9cfa26abfee488c85f1582747f6a02
+    m_AssetGUID: 61830c8bf2101c444943817055ddc71a
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

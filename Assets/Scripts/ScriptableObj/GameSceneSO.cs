@@ -8,6 +8,7 @@ using UnityEngine.AddressableAssets;
 public class GameSceneSO : ScriptableObject
 {
     public AssetReference mSceneRefer;
+    public SceneType mSceneType;
     public void RaiseEvent()
     {
     }
