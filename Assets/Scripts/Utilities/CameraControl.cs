@@ -28,17 +28,16 @@ public class CameraControl : MonoBehaviour
     }
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetNewCameraBounds();
-    }
+    // // Start is called before the first frame update
+    // void Start()
+    // {
+    //     GetNewCameraBounds();
+    // }
 
     private void OnEnable()
     {
         mCameraShakeEvent.mOnEventRaised += OntakeDamage;
         mSceneAfterLoadEvent.mOnEventRaised += OnSceneLoadAfter;
-        
     }
 
     private void OnSceneLoadAfter()
