@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public GameSceneSO mFirstLoadScene;
+    public Vector3 mFirstPosition;
     public SceneLoadEventSO mSceneLoadEventSO;
     public Transform mPlayerTrans;
 
@@ -28,8 +29,9 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         //Addressables.LoadSceneAsync(mFirstLoadScene.mSceneRefer, LoadSceneMode.Additive);
-        mSceneCurrent = mFirstLoadScene;
-        mSceneCurrent.mSceneRefer.LoadSceneAsync(LoadSceneMode.Additive);
+        //mSceneCurrent = mFirstLoadScene;
+        //mSceneCurrent.mSceneRefer.LoadSceneAsync(LoadSceneMode.Additive);
+        NewGame();
     }
 
     private void OnEnable()
@@ -40,6 +42,12 @@ public class SceneLoader : MonoBehaviour
     private void OnDisable()
     {
         mSceneLoadEventSO.mLoadRequestEvent -= OnLoadRequestEventSO;
+    }
+
+    private void NewGame()
+    {
+        mSceneToLoad = mFirstLoadScene;
+        OnLoadRequestEventSO(mSceneToLoad, mFirstPosition, true);
     }
 
     private void OnLoadRequestEventSO(GameSceneSO locationToLoad, Vector3 postToGo, bool fadedScreen)
