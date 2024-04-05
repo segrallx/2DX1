@@ -13,6 +13,7 @@ public class SceneLoader : MonoBehaviour
     public GameSceneSO mFirstLoadScene;
     public Vector3 mFirstPosition;
     public SceneLoadEventSO mSceneLoadEventSO;
+    public FadeEventSO mFadeEventSO;
     public Transform mPlayerTrans;
 
     public VoidEventSO mAfterSceneLoadEvent;
@@ -69,6 +70,7 @@ public class SceneLoader : MonoBehaviour
     {
         if(mFadedScreen)
         {
+            mFadeEventSO.FadeIn(mFadeDuration);
         }
 
         yield return new WaitForSeconds(mFadeDuration);
@@ -102,6 +104,7 @@ public class SceneLoader : MonoBehaviour
         if(mFadedScreen)
         {
             //TODO:
+            mFadeEventSO.FadeOut(mFadeDuration);
         }
 
         mIsLoading = false;
