@@ -28,12 +28,17 @@ public class GameObjectPoolData
         obj.SetActive(false);
     }
 
-    public GameObject GetObj()
+    public GameObject GetObj(Transfrom parent = null)
     {
         GameObject obj = poolQueue.Dequeue();
         obj.SetActive(true);
-        obj.transform.SetParent(null);
-        SceneManager.MoveGameObjectToScene(obj, SceneManager.GetActiveScene());
+        obj.transform.SetParent(parent);
+
+        if(parent == null) {
+            SceneManager.MoveGameObjectToScene(obj, SceneManager.GetActiveScene());
+        }
+
         return obj;
     }
+
 }
