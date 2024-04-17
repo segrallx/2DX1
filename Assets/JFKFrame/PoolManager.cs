@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class PoolManager : ManageBase<PoolManager>
 
 
 
-    public T GetGameObject<T>(GameObject prefeb, Transfrom parent = null)
+    public T GetGameObject<T>(GameObject prefeb, Transform parent = null)
         where T : UnityEngine.Object
     {
         GameObject obj = GetGameObject(prefeb,parent);
@@ -43,7 +44,7 @@ public class PoolManager : ManageBase<PoolManager>
         return gameObjectPoolDic.ContainsKey(name) && gameObjectPoolDic[name].poolQueue.Count>0;
     }
 
-    public GameObject GetGameObject(GameObject prefeb, Transfrom parent = null)
+    public GameObject GetGameObject(GameObject prefeb, Transform parent = null)
     {
         GameObject obj = null;
         string name = prefeb.name;
@@ -94,7 +95,7 @@ public class PoolManager : ManageBase<PoolManager>
     }
 
 
-    public void PushObject(object obj)
+    public void PushObject<T>(object obj)
     {
         string name = typeof(T).FullName;
         if (objectPoolDic.ContainsKey(name))
@@ -110,12 +111,60 @@ public class PoolManager : ManageBase<PoolManager>
     }
 
 
+    #region É¾³ý
+
     // common
-    public void Clear(bool wantClearCObject=true)
+    public void Clear(bool clearGameObject = true,bool clearObject=true)
     {
-        gameObjectPoolDic.Clear();
-        if(wantClearCObject) {
+        if(clearGameObject)
+        {
+            gameObjectPoolDic.Clear();
+            for(int i = 0; i < poolRootObj.transform.childCount; i++)
+            {
+                Destroy(poolRootObj.transform.GetChild(0).gameObject);
+            }
+        }
+
+        if(clearObject) {
             objectPoolDic.Clear();
         }
     }
+
+    public void ClearGameObject()
+    {
+        Clear(true, false);
+    }
+
+    public void ClearGameObject(string prefebName)
+    {
+        GameObject go = poolRootObj.transform.Find(prefebName).gameObject;
+        if (go != null)
+        {
+            Destroy(go.gameObject);
+            gameObjectPoolDic.Remove(prefebName);
+        }
+    }
+
+    public void ClearGameObject(GameObject prefeb)
+    {
+        ClearGameObject(prefeb.name);
+    }
+
+    public void ClearObject()
+    {
+        Clear(false, true);
+    }
+
+    public void ClearObject<T>()
+    {
+        objectPoolDic.Remove(typeof(T).FullName);
+    }
+
+    public void ClearObject(Type t)
+    {
+        objectPoolDic.Remove(t.FullName);
+    }
+
+
+    #endregion
 }

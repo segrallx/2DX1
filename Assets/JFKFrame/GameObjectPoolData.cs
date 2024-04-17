@@ -28,7 +28,7 @@ public class GameObjectPoolData
         obj.SetActive(false);
     }
 
-    public GameObject GetObj(Transfrom parent = null)
+    public GameObject GetObj(Transform parent = null)
     {
         GameObject obj = poolQueue.Dequeue();
         obj.SetActive(true);
