@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GameRoot : SingletonMono<GameRoot>
 {
+
+    [SerializeField]
+    private GameSetting gameSetting;
+    public GameSetting GameSetting
+    {
+        get { return gameSetting; }
+    }
+
     protected override void Awake()
     {
         if (Instance != null)
