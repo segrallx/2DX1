@@ -12,7 +12,8 @@ public class ResManager: ManageBase<ResManager>
     public override void Init()
     {
         base.Init();
-        wantCacheDic = new Dictionary<Type, bool>();
+        //wantCacheDic = new Dictionary<Type, bool>();
+        wantCacheDic = GameRoot.Instance.GameSetting.wantCacheDic;
     }
 
 
