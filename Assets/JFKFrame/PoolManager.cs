@@ -33,7 +33,6 @@ public class PoolManager : ManageBase<PoolManager>
         {
             return obj.GetComponent<T>();
         }
-
         return null;
     }
 
@@ -42,6 +41,24 @@ public class PoolManager : ManageBase<PoolManager>
     {
         string name = prefeb.name;
         return gameObjectPoolDic.ContainsKey(name) && gameObjectPoolDic[name].poolQueue.Count>0;
+    }
+
+    // 检查缓存以及加载游戏物体
+    public GameObject CheckCacheAndLoadGameObject(string path, Transform parent)
+    {
+        // 通过路径获得最终预制体的名称 "Prefeb/X1.prefeb"
+        string[] pathSplit = path.Split("/");
+        string prefebName = pathSplit[pathSplit.Length - 1];
+
+        //对象池有数据.
+        if (gameObjectPoolDic.ContainsKey(prefebName) && gameObjectPoolDic[prefebName].poolQueue.Count>0)
+        {
+            return gameObjectPoolDic[prefebName].GetObj(parent);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public GameObject GetGameObject(GameObject prefeb, Transform parent = null)
