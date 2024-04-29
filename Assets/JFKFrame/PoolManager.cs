@@ -127,6 +127,23 @@ public class PoolManager : ManageBase<PoolManager>
         }
     }
 
+    public void PushObject(object obj)
+    {
+        string name = obj.GetType().FullName;
+        if(objectPoolDic.ContainsKey(name))
+        {
+            objectPoolDic[name].PushObj(obj);
+        }
+        else
+        {
+            var newpool = new ObjectPoolData();
+            objectPoolDic.Add(name, newpool);
+            newpool.PushObj(obj);
+        }
+
+    }
+
+
 
     #region É¾³ý
 
