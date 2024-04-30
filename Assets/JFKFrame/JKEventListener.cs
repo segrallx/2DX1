@@ -11,6 +11,31 @@ public interface IMouseEvent: IPointerEnterHandler, IPointerExitHandler,
     
 }
 
+//事件类型
+public enum JKEventType
+{
+    OnMouseEnter,
+    OnMouseExit,
+    OnClick,
+    OnClickDown,
+    OnClickUp,
+    OnDrag,
+    OnBeginDrag,
+    OnEndDrag,
+    OnCollisionEnter,
+    OnCollisionStay,
+    OnCollisionExit,
+    OnCollisionEnter2D,
+    OnCollisionStay2D,
+    OnCollisionExit2D,
+    OnTriggerEnter,
+    OnTriggerStay,
+    OnTriggerExit,
+    OnTriggerEnter2D,
+    OnTriggerStay2D,
+    OnTriggerExit2D,
+}
+
 // 事件工具
 public class JKEventListener : MonoBehaviour, IMouseEvent
 {
@@ -34,9 +59,13 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
         }
     }
 
+    interface JKEventListenerEventInfosI {
+        void RemoveAll();
+    }
 
     // 一类事件
-    private class JKEventListenerEventInfos<T>
+    [Pool]
+    private class JKEventListenerEventInfos<T>: JKEventListenerEventInfosI
     {
         private List<JKEventListenerEventInfo<T>> eventList = new List<JKEventListenerEventInfo<T>>();
 
@@ -93,40 +122,96 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
 
     #endregion
 
+    private Dictionary<JKEventType, JKEventListenerEventInfosI> eventInfoDict = 
+        new Dictionary<JKEventType, JKEventListener.JKEventListenerEventInfosI>();
+
+
+    private void TriggerAction<T>(JKEventType eventType, T eventData)
+    {
+        if (eventInfoDict.ContainsKey(eventType))
+        {
+            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).TriggerEvent(eventData);
+        }
+    }
+
+    #region 外部访问
+    public void AddListener<T>(JKEventType eventType, Action<T, object[]> action, bool checkArgs= false, params object[] args) 
+    { 
+        if(eventInfoDict.ContainsKey(eventType))
+        {
+            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).AddListener(action, checkArgs, args);
+        }
+        else
+        {
+            JKEventListenerEventInfos<T> infos = ResManager.Instance.Load<JKEventListenerEventInfos<T>>();
+            infos.AddListener(action, checkArgs, args);
+            eventInfoDict.Add(eventType, infos);
+        }
+    }
+
+    public void RemoveListener<T>(JKEventType eventType, Action<T, object[]> action, bool checkArgs = false, params object[] args)
+    {
+        if(eventInfoDict.ContainsKey(eventType))
+        {
+            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).RemoveListener(action, checkArgs, args);
+        }
+    }
+
+    public void RemoveAllListener<T>(JKEventType eventType)
+    {
+        if(eventInfoDict.ContainsKey(eventType))
+        {
+            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).RemoveAll();
+        }
+    }
+
+    public void RemoveAllListener()
+    {
+        foreach( JKEventListenerEventInfosI  item in eventInfoDict.Values)
+        {
+            item.RemoveAll();
+        }
+        eventInfoDict.Clear();
+    }
+
+
+    #endregion
+
+
     #region 鼠标事件
     public void OnBeginDrag(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnBeginDrag, eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnDrag, eventData);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnEndDrag, eventData);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnClick, eventData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnMouseEnter, eventData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnMouseExit, eventData);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        TriggerAction(JKEventType.OnClickUp, eventData);
     }
 
     #endregion
@@ -134,62 +219,63 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
 
     private void OnCollisionEnter(Collision collision)
     {
+        TriggerAction(JKEventType.OnCollisionEnter, collision);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        
+        TriggerAction(JKEventType.OnCollisionExit, collision);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        
+        TriggerAction(JKEventType.OnCollisionStay, collision);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        TriggerAction(JKEventType.OnCollisionEnter2D, collision);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        
+        TriggerAction(JKEventType.OnCollisionExit2D, collision);
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        
+        TriggerAction(JKEventType.OnCollisionStay2D, collision);
     }
 
     #endregion
     #region 触发事件
     private void OnTriggerEnter(Collider other)
     {
-        
+        TriggerAction(JKEventType.OnTriggerEnter, other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        
+        TriggerAction(JKEventType.OnTriggerExit, other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        
+        TriggerAction(JKEventType.OnTriggerStay, other);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        TriggerAction(JKEventType.OnTriggerEnter2D, collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        TriggerAction(JKEventType.OnTriggerExit2D, collision);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
+        TriggerAction(JKEventType.OnTriggerStay2D, collision);
     }
 
     #endregion
