@@ -22,12 +22,14 @@ public enum JKEventType
     OnDrag,
     OnBeginDrag,
     OnEndDrag,
+
     OnCollisionEnter,
     OnCollisionStay,
     OnCollisionExit,
     OnCollisionEnter2D,
     OnCollisionStay2D,
     OnCollisionExit2D,
+
     OnTriggerEnter,
     OnTriggerStay,
     OnTriggerExit,
@@ -41,7 +43,6 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
 {
     #region 内部类和接口
     /// 一次事件
-    [Pool]
     private class JKEventListenerEventInfo<T>
     {
         public Action<T, object[]> action;
@@ -51,6 +52,13 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
         {
             this.action = action;
             this.args = args;
+        }
+
+        public void Destory()
+        {
+            this.action = null;
+            this.args = null;
+            this.JKObjectPushPool();
         }
 
         public void TriggerEvent(T eventData)
@@ -64,14 +72,13 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
     }
 
     // 一类事件
-    [Pool]
     private class JKEventListenerEventInfos<T>: JKEventListenerEventInfosI
     {
         private List<JKEventListenerEventInfo<T>> eventList = new List<JKEventListenerEventInfo<T>>();
 
         public void AddListener(Action<T, object[]> action, params object[] args)
         {
-            JKEventListenerEventInfo<T> info = ResManager.Instance.Load<JKEventListenerEventInfo<T>>();
+            JKEventListenerEventInfo<T> info = PoolManager.Instance.GetObject<JKEventListenerEventInfo<T>>();
             info.Init(action, args);
             eventList.Add(info);
         }
@@ -86,14 +93,16 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
                     {
                         if (args.ArrayEquals(eventList[i].args))
                         {
-                            eventList[i].action.JKObjectPushPool();
+                            //eventList[i].JKObjectPushPool();
+                            eventList[i].Destory();
                             eventList.RemoveAt(i);
                             return;
                         }
                     }
                     else
                     {
-                        eventList[i].action.JKObjectPushPool();
+                        //eventList[i].JKObjectPushPool();
+                        eventList[i].Destory();
                         eventList.RemoveAt(i);
                         return;
                     }
@@ -105,8 +114,10 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
         {
             for(int i=0;i<eventList.Count;i++)
             {
-                eventList[i].JKObjectPushPool();
+                //eventList[i].JKObjectPushPool();
+                eventList[i].Destory();
             }
+            this.JKObjectPushPool();
             eventList.Clear();
         }
 
@@ -135,16 +146,16 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
     }
 
     #region 外部访问
-    public void AddListener<T>(JKEventType eventType, Action<T, object[]> action, bool checkArgs= false, params object[] args) 
+    public void AddListener<T>(JKEventType eventType, Action<T, object[]> action, params object[] args) 
     { 
         if(eventInfoDict.ContainsKey(eventType))
         {
-            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).AddListener(action, checkArgs, args);
+            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).AddListener(action, args);
         }
         else
         {
-            JKEventListenerEventInfos<T> infos = ResManager.Instance.Load<JKEventListenerEventInfos<T>>();
-            infos.AddListener(action, checkArgs, args);
+            JKEventListenerEventInfos<T> infos = PoolManager.Instance.GetObject<JKEventListenerEventInfos<T>>();
+            infos.AddListener(action, args);
             eventInfoDict.Add(eventType, infos);
         }
     }
@@ -157,11 +168,13 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
         }
     }
 
-    public void RemoveAllListener<T>(JKEventType eventType)
+    public void RemoveAllListener(JKEventType eventType)
     {
         if(eventInfoDict.ContainsKey(eventType))
         {
-            (eventInfoDict[eventType] as JKEventListenerEventInfos<T>).RemoveAll();
+            //(eventInfoDict[eventType] as JKEventListenerEventInfos<T>).RemoveAll();
+            eventInfoDict[eventType].RemoveAll();
+            eventInfoDict.Remove(eventType);
         }
     }
 
