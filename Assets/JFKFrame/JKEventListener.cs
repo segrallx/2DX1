@@ -120,7 +120,7 @@ public class JKEventListener : MonoBehaviour, IMouseEvent
             this.JKObjectPushPool();
             eventList.Clear();
         }
-
+        
         public void TriggerEvent(T eventData)
         {
             for(int i=0;i<eventList.Count;i++)
