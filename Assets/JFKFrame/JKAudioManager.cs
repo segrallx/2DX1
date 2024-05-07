@@ -85,4 +85,23 @@ public class JKAudioManager : ManageBase<JKAudioManager>
         UpdateVfxAudioPlay();
     }
 
+    public void PlayBgAudio(AudioClip clip, bool isLoop= true, float volume = -1)
+    {
+        bgAudioSource.clip = clip;
+        this.isLoop = isLoop;
+        if(volume!=-1)
+        {
+            BgVolume = volume;
+        }
+
+        bgAudioSource.Play();
+    }
+
+    public void PlayBgAudio(string clipPath, bool isLoop = true, float volume = -1)
+    {
+        AudioClip clip = ResManager.Instance.LoadAsset<AudioClip>(clipPath);
+        PlayBgAudio(clip, isLoop, volume);
+    }
+
+
 }
