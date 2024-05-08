@@ -1,7 +1,11 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class JKAudioManager : ManageBase<JKAudioManager>
 {
@@ -9,6 +13,13 @@ public class JKAudioManager : ManageBase<JKAudioManager>
     private AudioSource bgAudioSource;
 
     [SerializeField]
+    private GameObject prefeb_AudioPlay;
+    private List<AudioSource> audioPlayerList = new List<AudioSource>();
+
+
+
+
+//    [SerializeField]
     private AudioSource vfxAudioSource;
 
     [SerializeField]
@@ -41,6 +52,8 @@ public class JKAudioManager : ManageBase<JKAudioManager>
             UpdateMute();
         }
     }
+
+    private bool isPause;
 
     private void UpdateMute()
     {
@@ -75,7 +88,37 @@ public class JKAudioManager : ManageBase<JKAudioManager>
     private void UpdateVfxAudioPlay()
     {
         //vfxAudioSource.volume = vfxVolume * globalVolume;
-        Debug.Log("UpdateVfxAudioPlay");
+        //Debug.Log("UpdateVfxAudioPlay");
+        for(int i= audioPlayerList.Count; i>=0 ; i--)
+        {
+            if (audioPlayerList[i]!=null)
+            {
+                SetEffectAudioPlay(audioPlayerList[i]);
+            }else
+            {
+                audioPlayerList.RemoveAt(i);
+            }
+        }
+    }
+
+    private void SetEffectAudioPlay(AudioSource audioSource, float spatial = -1)
+    {
+        audioSource.mute = isMute;
+        audioSource.volume = vfxVolume * globalVolume;
+        if(spatial!=-1)
+        {
+            audioSource.spatialBlend = spatial;
+        }
+
+        if(isPause)
+        {
+            audioSource.Pause();
+        }
+        else
+        {
+            audioSource.UnPause();
+        }
+
     }
 
     private void UpdateGlobalAudioPlay()
@@ -102,6 +145,77 @@ public class JKAudioManager : ManageBase<JKAudioManager>
         AudioClip clip = ResManager.Instance.LoadAsset<AudioClip>(clipPath);
         PlayBgAudio(clip, isLoop, volume);
     }
+
+
+    private AudioSource GetAudioPlay(bool is3D = true)
+    {
+        AudioSource audioSource = PoolManager.Instance.GetGameObject<AudioSource>(prefeb_AudioPlay);
+        SetEffectAudioPlay(audioSource, is3D ? 1f : 0f);
+        audioPlayerList.Add(audioSource);
+        return audioSource;
+    }
+
+    // 回收播放器
+    private void RecycleAudioPlay(AudioSource audioSource, AudioClip clip, UnityAction callback, float time)
+    {
+        StartCoroutine(DoRecycleAudioPlay(audioSource, clip, callback, time));
+    }
+
+    private IEnumerator DoRecycleAudioPlay(AudioSource audioSource, AudioClip clip, UnityAction callback, float time)
+    {
+        yield return new WaitForSeconds(clip.length);
+        if(audioSource!=null)
+        {
+            audioSource.JKGameObjectPushPool();
+        }
+
+        yield return new WaitForSeconds(time);
+        callback?.Invoke();
+    }
+
+    // 播放一次特效音乐
+    public void PlayOnShot(AudioClip clip,Vector3 pos, float volumeSale = 1, bool is3D = true, 
+        UnityAction callback = null, float callBackTime = 0)
+    {
+        AudioSource audioSource = GetAudioPlay(is3D);
+        //audioSource.transform.SetParent(component.transform);
+        audioSource.transform.localPosition = pos;// Vector3.zero;
+        audioSource.PlayOneShot(clip, volumeSale);
+
+        RecycleAudioPlay(audioSource,clip,callback, callBackTime);
+    }
+
+    public void PlayOnShot(AudioClip clip, Component com, float volumeSale = 1, bool is3D = true,
+    UnityAction callback = null, float callBackTime = 0)
+    {
+        AudioSource audioSource = GetAudioPlay(is3D);
+        audioSource.transform.SetParent(com.transform);
+        audioSource.transform.localPosition = Vector3.zero;
+        audioSource.PlayOneShot(clip, volumeSale);
+
+        RecycleAudioPlay(audioSource, clip, callback, callBackTime);
+    }
+
+    public void PlayOnShot(string clipPath, Vector3 pos, float volumeSale = 1, bool is3D = true,
+    UnityAction callback = null, float callBackTime = 0)
+    {
+        AudioClip clip = ResManager.Instance.LoadAsset<AudioClip>(clipPath);
+        if(clip!=null)
+        {
+            PlayOnShot(clip, pos, volumeSale, is3D, callback, callBackTime);
+        }
+    }
+
+    public void PlayOnShot(string clipPath, Component com, float volumeSale = 1, bool is3D = true,
+UnityAction callback = null, float callBackTime = 0)
+    {
+        AudioClip clip = ResManager.Instance.LoadAsset<AudioClip>(clipPath);
+        if (clip != null)
+        {
+            PlayOnShot(clip, com, volumeSale, is3D, callback, callBackTime);
+        }
+    }
+
 
 
 }
