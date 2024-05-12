@@ -207,6 +207,11 @@ public static class SaveManager
         }
     }
 
+    private static void RemoveCache(int saveId) {
+        cacheDic.Remove(saveId);
+    }
+
+
     #endregion
 
     #region ¹ØÓÚ´æµµ
