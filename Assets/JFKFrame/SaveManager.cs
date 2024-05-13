@@ -37,6 +37,7 @@ public class SaveItem
 public static class SaveManager
 {
 
+    [Serializable]
     private class SaveManagerData
     {
         public int currId = 0;
@@ -70,7 +71,8 @@ public static class SaveManager
             Directory.CreateDirectory(settingDirPath);
         }
 
-        saveManagerData = new SaveManagerData();
+        //saveManagerData = new SaveManagerData();
+        InitSaveManagerData();
     }
 
     private static BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -246,12 +248,31 @@ public static class SaveManager
         }
 
         saveManagerData.saveItemList.Remove(GetSaveItem(saveId));
+        RemoveCache(saveId);
+        UpdateSaveManagerData();
     }
 
 
     public static void DeleteSaveItem(SaveItem saveItem)
     {
         DeleteSaveItem(saveItem.SaveId);
+    }
+
+
+    #endregion
+
+    #region ¥Êµµ…Ë÷√
+    public static void UpdateSaveManagerData()
+    {
+        SaveFile(saveManagerData, saveDirPath + "/SaveManagerData");
+    }
+
+    private static void InitSaveManagerData() {
+        saveManagerData = LoadFile<SaveManagerData>(saveDirPath + "/SaveManagerData");
+        if(saveManagerData == null) {
+            saveManagerData = new SaveManagerData();
+            UpdateSaveManagerData();
+        }
     }
 
 
