@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Unity.VisualScripting;
 using System;
+using System.Linq;
 
 
 public class SaveItem
@@ -102,6 +103,11 @@ public static class SaveManager
     // 获取某个存档的路径.
     private static string GetSavePath(int saveId, bool createDir = true)
     {
+        if(GetSaveItem(saveId) ==null) {
+            throw new Exception("JK:SaveId not exist");
+        }
+
+
         // TODO
         string saveIndexDir = saveDirPath + "/" + saveId;
         if (Directory.Exists(saveIndexDir) == false)
@@ -274,6 +280,58 @@ public static class SaveManager
             UpdateSaveManagerData();
         }
     }
+
+    // 获取所有存档，不考虑排序问题.
+    public static List<SaveItem> GetAllSaveItem()
+    {
+        return saveManagerData.saveItemList;
+    }
+
+    public static List<SaveItem> GetAllSaveItemByCreateTime()
+    {
+        List<SaveItem> saveItems = new List<SaveItem>(saveManagerData.saveItemList.Count);
+        for(int i=0;i<saveManagerData.saveItemList.Count ; i++)  {
+            saveItems.Add(saveManagerData.saveItemList[saveManagerData.saveItemList.Count-i-1]);
+        }
+        return saveItems;
+    }
+
+    public static List<SaveItem> GetAllSaveItemByUpdateTime()
+    {
+        List<SaveItem> saveItems = new List<SaveItem>(saveManagerData.saveItemList.Count);
+        for(int i=0;i<saveManagerData.saveItemList.Count ; i++ )  {
+            saveItems.Add(saveManagerData.saveItemList[i]);
+        }
+
+        OrderByUpdateTimeComparer orderByUptime = new OrderByUpdateTimeComparer();
+        saveItems.Sort(orderByUptime);
+
+        return saveItems;
+    }
+
+    public static List<SaveItem> GetAllSaveItem<T>(Func<SaveItem,T> orderFunc,
+                                                   bool isDescending =false)
+    {
+        if(isDescending) {
+            return saveManagerData.saveItemList.OrderByDescending(orderFunc).ToList();
+        } else {
+            return saveManagerData.saveItemList.OrderBy(orderFunc).ToList();
+        }
+    }
+
+    private class OrderByUpdateTimeComparer: IComparer<SaveItem>
+    {
+        public int Compare(SaveItem x, SaveItem y)
+        {
+            if(x.LastUpdateTime>y.LastUpdateTime) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
 
 
     #endregion
