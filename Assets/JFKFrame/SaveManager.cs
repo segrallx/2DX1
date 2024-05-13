@@ -331,9 +331,31 @@ public static class SaveManager
         }
     }
 
+    #endregion
 
+    #region 全局数据
 
+    //
+    public static T LoadSetting<T>(string fileName)  where T:  class {
+        return LoadFile<T>(settingDirPath+"/"+fileName);
+    }
+
+    public static T LoadSetting<T>()  where T:  class {
+        return LoadFile<T>(typeof(T).Name);
+    }
+
+    //
+    public static void SaveSetting(object saveObject, string fileName)
+    {
+        SaveFile(saveObject, settingDirPath+"/"+fileName);
+    }
+
+    public static void SaveSetting(object saveObject)
+    {
+        SaveSetting(saveObject, saveObject.GetType().Name);
+    }
 
     #endregion
+
 
 }
